@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendloc);
+    } 
+    else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+/*function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+}*/
+
+
+function sendloc(position)
+{
+    alert("ajax call before"+position.coords.latitude);
+    var data={ lat: position.coords.latitude, long: position.coords.longitude };
+    //AJAX post data
+    $.ajax({
+                    type: 'POST',
+                    url: '/loc',
+                    data: data,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log('success');
+                        console.log(data);
+                        }
+        });
+            alert("ajax call after");
+
+
+}
+
+    
+</script>
+
+</body>
+</html>
